@@ -1,0 +1,42 @@
+<!--
+    orderBy:排序功能
+-->
+<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="angular.js"></script>
+	</head>
+	<body ng-app ng-controller="PhoneListCtrl">
+		Search: <input ng-model="query"/>
+		Sort by:
+		<select ng-model="orderProp">
+		    <option value="name">Alphabetical</option>
+			<option value="age">Newest</option>
+		</select>
+		<ul>
+		    <li ng-repeat="phone in phones | filter:query | orderBy: orderProp">
+			    {{phone.name}}
+				<p>{{phone.snippet}}</p>
+			</li>
+		</ul>
+		<script>
+		    function PhoneListCtrl($scope){
+			     $scope.phones = [
+				     {"name": "Nexus S",
+					  "snippet":"Fast just got faster with Nexus S.",
+                      "age": 0					  
+					 },
+					 {"name": "Motorola XOOM with Wi-Fi",
+					  "snippet": "The Next, Next Generation tablet.",
+					  "age": 1					  
+					 },
+					 {"name": "MOTOROLA XOOM",
+					  "snippet": "The Next, Next Generation tablet.",
+					  "age": 2
+					 }
+				 ];
+				 $scope.orderProp = "age";
+			}    
+		</script>
+	</body>
+</html>
