@@ -1,0 +1,43 @@
+<!--
+    Services:所有的services都是singleton(单例)
+-->
+<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="angular.js"></script>
+	</head>
+	<body ng-app="app">
+
+		<div ng-controller="MainCtrl">
+
+			MainCtrl:
+
+			<input type="text" ng-model="user.name">
+
+		</div>
+
+		<div ng-controller="SecondCtrl">
+
+			SecondCtrl:
+
+			<input type="text" ng-model="user.name">
+
+		</div>
+        <script>
+		    var app = angular.module('app', []);
+			app.factory('UserInformation', function() {
+				var user = {
+
+				};
+				return user;
+			});
+			app.controller('MainCtrl', function($scope, UserInformation) {
+                $scope.user = UserInformation;
+			});
+
+			app.controller('SecondCtrl', function($scope, UserInformation) {
+                $scope.user = UserInformation;
+			});     		
+		</script>
+	</body>
+</html>
