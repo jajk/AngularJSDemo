@@ -1,0 +1,27 @@
+<!--
+    directive:
+        --restrict:创建的指令中可以指定以元素（E）、属性（A）、类（C）或注释（M）的格式来调用指令，如下：
+            <my-directive></my-directive>
+            <div my-directive></div>
+            <div class="my-directive"></div>
+            <!--directive:my-directive-- >			
+-->
+<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="angular.js"></script>
+	</head>
+	<body ng-app="myApp">
+		<my-directive></my-directive>
+		<script>
+	        angular.module('myApp', [])
+			.directive('myDirective', function(){
+			    return {
+				    restrict: 'E',
+					replace: true,
+					template: '<a href="https://www.baidu.com">Click me to go to Baidu</a>'
+				};
+			});
+		</script>
+	</body>
+</html>
