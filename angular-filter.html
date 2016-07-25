@@ -1,0 +1,33 @@
+<!--
+    ng-repeat中的filter来过滤
+-->
+<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="angular.js"></script>
+	</head>
+	<body ng-app>
+		Search: <input ng-model="query"/>
+		<ul ng-controller="PhoneListCtrl">
+		    <li ng-repeat="phone in phones | filter:query">
+			    {{phone.name}}
+				<p>{{phone.snippet}}</p>
+			</li>
+		</ul>
+		<script>
+		    function PhoneListCtrl($scope){
+			     $scope.phones = [
+				     {"name": "Nexus S",
+					  "snippet":"Fast just got faster with Nexus S." 
+					 },
+					 {"name": "Motorola XOOM with Wi-Fi",
+					  "snippet": "The Next, Next Generation tablet."   
+					 },
+					 {"name": "MOTOROLA XOOM",
+					  "snippet": "The Next, Next Generation tablet."
+					 }
+				 ];
+			}    
+		</script>
+	</body>
+</html>
