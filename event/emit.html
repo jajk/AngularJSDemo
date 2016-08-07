@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="angular.js"></script>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="ParentCtrl">
+		    <div ng-controller="ChildCtrl"></div>
+            <div ng-controller="ChildSiblingCtrl"></div>			
+		</div>
+		<script>
+		    var app = angular.module('myApp', []);
+			app.run(function($rootScope){
+			    $rootScope.$on('testEmit', function(evt, data){
+				    console.log('rootScope--'+data);
+				});
+			});
+			app.controller('ParentCtrl', function($scope){
+			    $scope.$on('testEmit', function(evt, data){
+					console.log('parentCtrl--'+data);
+				});
+			}).controller('ChildCtrl', function($scope){
+			    $scope.$emit('testEmit', 'Hello');
+			}).controller('ChildSiblingCtrl',function($scope){
+			    $scope.$on('testEmit', function(evt, data){
+					console.log('sibling--'+data);
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,58 @@
+<!--
+    AngularJS的事件（$emit、$broadcast）传播，都是从自身开始传递的
+	即，如果自身的作用域scope中，有该类监听事件，那么首先触发，然后，再向其他方向传递
+-->
+<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="angular.js"></script>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="ParentCtrl">
+		    <button ng-click="BroadCastTestAction()">ParentClick</button>
+		    <div ng-controller="ChildCtrl">
+			    <button ng-click="EmitTestAction()">ChildClick</button>
+			</div>
+            <div ng-controller="ChildSiblingCtrl"></div>			
+		</div>
+		<script>
+		    var app = angular.module('myApp', []);
+			app.run(function($rootScope){
+			    $rootScope.$on('EmitTest', function(evt, data){
+				    console.log('rootScope--fromEmit--' + data.name);
+				});
+				$rootScope.$on('BroadCastTest', function(evt, data){
+				    console.log('rootScope--fromBroad--' + data.name);
+				});    
+			});
+			app.controller('ParentCtrl', function($scope){
+			    $scope.$on('BroadCastTest', function(evt, data){
+				    console.log('ParentCtrl--fromBroad--'+data.name);
+				});
+				$scope.$on('EmitTest', function(evt, data){
+				    console.log('ParentCtrl--fromEmit--'+data.name);
+				});
+				$scope.BroadCastTestAction = function(){
+				    $scope.$broadcast('BroadCastTest',{name: 'BroadCastTest'});
+				}	
+			}).controller('ChildCtrl', function($scope){
+			    $scope.$on('BroadCastTest', function(evt, data){
+				    console.log('ChildCtrl--fromBroad--'+data.name);
+				});
+				$scope.$on('EmitTest', function(evt, data){
+				    console.log('ChildCtrl--fromEmit--'+data.name);
+				});
+				$scope.EmitTestAction = function(){
+				    $scope.$emit('EmitTest',{name: 'EmitTest'});
+				}    
+			}).controller('ChildSiblingCtrl',function($scope){
+			     $scope.$on('BroadCastTest', function(evt, data){
+				    console.log('SiblingCtrl--fromBroad--'+data.name);
+				});
+				$scope.$on('EmitTest', function(evt, data){
+				    console.log('SiblingCtrl--fromEmit--'+data.name);
+				});    
+			});
+		</script>
+	</body>
+</html>
