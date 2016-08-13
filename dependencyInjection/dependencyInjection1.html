@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8"/>
+	</head>
+	<body>
+		<script>
+			var injector = {
+			    dependencies: {},
+				register: function(key, value){
+				    this.dependencies[key] = value;
+					return this;
+				},
+				resolve: function(deps, func, scope){
+				    var args = [];
+					for(var i = 0; i < deps.length, d = deps[i]; i++){
+					    if(this.dependencies[d]){
+						    args.push(this.dependencies[d]);
+						}else{
+						    throw new Error('Can\'t resolve ' + d);
+						}
+					}
+					return function(){
+					    func.apply(scope || {}, args.concat(Array.prototype.slice.call(arguments, 0)));
+					}
+				}
+			}; 
+			injector.register('service', function(){
+			    console.log('I am service');
+			}).register('router', function(){
+			    console.log('I am router');
+			});
+            var doSomething = injector.resolve(['service', 'router'], function(service, router){
+			    service();
+				router();
+				console.log('BangBangBang!!!');
+			});
+            doSomething();			
+		</script>
+	</body>
+</html>
